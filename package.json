@@ -1,0 +1,9 @@
+{
+  "name": "telugu-kbc-live",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Telugu KBC-style live quiz for YouTube Shorts live streams (9:16)",
+  "scripts": {
+    "dev": "vercel dev"
+  }
+}

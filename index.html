@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="te">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0b0630">
+<title>Live కోటీశ్వర Quiz</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- ============ 9:16 GAME STAGE (1080 x 1920, auto-scaled) ============ -->
+<div id="viewport">
+  <div id="stage">
+    <div class="bg">
+      <div class="glow"></div>
+      <div class="rays"></div>
+      <div class="rays r2"></div>
+      <div class="stars"></div>
+      <div class="bokeh" id="bokeh"></div>
+      <div class="vignette"></div>
+    </div>
+
+    <header id="topbar">
+      <div class="brand">
+        <span class="coin-ico">₹</span>
+        <span id="showName">LIVE కోటీశ్వర QUIZ</span>
+        <span class="live-pill"><i></i>LIVE</span>
+      </div>
+      <div id="qBadge" class="qbadge"><span id="qBadgeN">Q1/50</span><span id="qBadgePrize">₹0</span></div>
+    </header>
+
+    <aside id="side">
+      <section id="top3"></section>
+      <section id="prog"></section>
+      <section id="players"></section>
+    </aside>
+
+    <main id="center">
+      <div id="qview">
+        <div id="timerRow">
+          <div id="timer">
+            <svg viewBox="0 0 120 120"><defs><linearGradient id="rg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff1b0"/><stop offset="1" stop-color="#ff9d00"/></linearGradient></defs>
+              <defs>
+                <linearGradient id="rg" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0" stop-color="#fff1b0"/><stop offset=".5" stop-color="#ffd24a"/><stop offset="1" stop-color="#ff9d00"/>
+                </linearGradient>
+              </defs>
+              <circle class="trk" cx="60" cy="60" r="54"></circle>
+              <circle id="ring" class="prg" cx="60" cy="60" r="54"></circle>
+            </svg>
+            <div id="timerNum">59</div>
+          </div>
+          <div id="timerInfo">
+            <div id="phaseLabel">READY</div>
+            <div id="answered">0 మంది answer చేశారు</div>
+          </div>
+        </div>
+
+        <div id="qcard">
+          <div id="qlevel"><span id="qlevelTxt">ప్రశ్న 1</span></div>
+          <div id="qbox"><div id="qtext"></div></div>
+          <i class="shine"></i>
+        </div>
+
+        <div id="opts">
+          <div class="opt" data-i="0"><div class="opt-in"><i class="bar"></i><span class="ol">A</span><span class="obox"><span class="otx"></span></span><span class="pct"></span></div></div>
+          <div class="opt" data-i="1"><div class="opt-in"><i class="bar"></i><span class="ol">B</span><span class="obox"><span class="otx"></span></span><span class="pct"></span></div></div>
+          <div class="opt" data-i="2"><div class="opt-in"><i class="bar"></i><span class="ol">C</span><span class="obox"><span class="otx"></span></span><span class="pct"></span></div></div>
+          <div class="opt" data-i="3"><div class="opt-in"><i class="bar"></i><span class="ol">D</span><span class="obox"><span class="otx"></span></span><span class="pct"></span></div></div>
+        </div>
+
+        <div id="howto">💬 Chat లో <b>A</b> <b>B</b> <b>C</b> <b>D</b> అని type చేయండి</div>
+        <div id="ticker"><div class="tk-label">ఇప్పుడే answer చేసినవారు</div><div id="tkRow"></div></div>
+      </div>
+
+      <div id="panel" class="panel"></div>
+    </main>
+
+    <div id="disclaimer">* ఇక్కడి ₹ amounts కేవలం game points — నిజమైన డబ్బు కాదు</div>
+    <div id="cta"><span>👍 Like</span><span>🔁 Share</span><span>🔔 Subscribe</span></div>
+
+    <div id="pauseBadge" hidden>⏸ PAUSED</div>
+    <div id="safeguide" hidden><i class="sg-top">TOP — YouTube UI</i><i class="sg-bottom">BOTTOM — chat / title cover this</i><i class="sg-right">buttons</i><b></b></div>
+    <canvas id="fx" width="1080" height="1920"></canvas>
+  </div>
+</div>
+
+<!-- ============ SETUP SCREEN ============ -->
+<div id="setup">
+  <div class="setup-card">
+    <div class="setup-title">🎙️ Live కోటీశ్వర Quiz</div>
+    <div class="setup-sub">YouTube Shorts Live కోసం · 9:16 · Telugu quiz game</div>
+
+    <label>YouTube Live link <em>(లేదా video ID)</em></label>
+    <input id="inVideo" type="text" placeholder="https://www.youtube.com/watch?v=xxxxxxxxxxx" autocomplete="off" spellcheck="false">
+
+    <details>
+      <summary>⚙️ More options (API key, time, questions, own questions)</summary>
+      <label>YouTube API key <em>(optional — సాధారణంగా అవసరం లేదు)</em></label>
+      <input id="inKey" type="password" placeholder="AIza…  (ఖాళీగా వదిలేయండి)" autocomplete="off">
+      <div class="row2">
+        <div><label>ఒక్కో question కి సమయం (sec)</label><input id="inTime" type="number" min="10" max="120" value="59"></div>
+        <div><label>ఒక్క live లో questions</label><input id="inTotal" type="number" min="5" max="100" value="50"></div>
+      </div>
+      <div class="row2">
+        <div><label>ఏ question నుంచి మొదలు</label><input id="inStart" type="number" min="1" max="100" value="1"></div>
+        <div><label>Show పేరు</label><input id="inName" type="text" value="LIVE కోటీశ్వర QUIZ" maxlength="28"></div>
+      </div>
+      <label class="chk"><input id="chkFresh" type="checkbox" checked> కొత్త live — leaderboard ని zero నుంచి మొదలుపెట్టు</label>
+      <label class="chk"><input id="chkSpeak" type="checkbox"> Question ని Telugu voice తో చదవాలి (browser support బట్టి)</label>
+      <label class="chk"><input id="chkKeep" type="checkbox"> పాత Leaderboard ని కొనసాగించు (ఖాళీగా వదిలితే కొత్త live = కొత్త leaderboard)</label>
+      <label>Own questions <em>(optional JSON — README చూడండి)</em></label>
+      <textarea id="inCustom" rows="4" placeholder='[{"level":3,"q":"ప్రశ్న?","o":["సరైన answer","తప్పు 1","తప్పు 2","తప్పు 3"]}]'></textarea>
+    </details>
+
+    <div id="bankInfo" class="bank-info"></div>
+    <div id="setupErr" class="setup-err" hidden></div>
+    <div class="setup-btns">
+      <button id="btnStart" class="btn gold">▶ START LIVE GAME</button>
+      <button id="btnDemo" class="btn ghost">🧪 Demo mode (fake chat)</button>
+      <button id="btnHist" class="btn link">🔁 Question history reset (అన్ని questions మళ్ళీ కొత్తగా)</button>
+    </div>
+    <div class="setup-hint">💡 Start నొక్కగానే sound on అవుతుంది. Stream కి browser tab / window ని share చేయండి (audio తో).</div>
+  </div>
+</div>
+
+<!-- ============ HOST CONTROLS (outside the stage) ============ -->
+<button id="gear" title="Host controls (H)">⚙<i id="gearDot"></i></button>
+<div id="host" hidden>
+  <div class="host-h">Host controls <small>(H తో hide/show)</small></div>
+  <div id="hostStatus">—</div>
+  <div class="host-grid">
+    <button id="hPause">⏯ Pause <small>Space</small></button>
+    <button id="hSkip">⏭ Skip step <small>N</small></button>
+    <button id="hEnd">🎉 End show + Top 10</button>
+    <button id="hNew">🆕 New show (reset)</button>
+    <button id="hGuide">📐 Safe area <small>G</small></button>
+    <button id="hReset">🗑 Reset leaderboard</button>
+    <button id="hTest">🔊 Test sound</button>
+    <button id="hStop">⏹ Stop / Setup</button>
+  </div>
+  <label>SFX volume <input id="vSfx" type="range" min="0" max="1" step="0.05" value="0.9"></label>
+  <label>Music volume <input id="vMusic" type="range" min="0" max="1" step="0.05" value="0.55"></label>
+</div>
+
+<script src="js/questions.js"></script>
+<script src="js/questions-extra.js"></script>
+<script src="js/bank-more.js"></script>
+<script src="js/audio.js"></script>
+<script src="js/chat.js"></script>
+<script src="js/game.js"></script>
+</body>
+</html>
